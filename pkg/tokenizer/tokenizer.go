@@ -11,12 +11,12 @@ type Encoder interface {
 	Decode([]int) string
 }
 
-// GPT3 encoder wrapper, current realisation: github.com/samber/go-gpt-3-encoder v0.3.1
 type GPT3 struct {
 	e *gpt3encoder.Encoder
 }
 
-func New() (*GPT3, error) {
+// NewGPT3 returns GPT3 encoder wrapper, current realisation: github.com/samber/go-gpt-3-encoder v0.3.1
+func NewGPT3() (*GPT3, error) {
 	encoder, err := gpt3encoder.NewEncoder()
 	if err != nil {
 		return nil, fmt.Errorf("encoder - New-gpt3encoder.NewEncoder: %w", err)

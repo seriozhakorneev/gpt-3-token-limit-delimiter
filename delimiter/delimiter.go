@@ -16,7 +16,7 @@ func New(limit int) (*Delimiter, error) {
 		return &Delimiter{}, fmt.Errorf("token limit should be more than 0")
 	}
 
-	encoder, err := tokenizer.New()
+	encoder, err := tokenizer.NewGPT3()
 	if err != nil {
 		return &Delimiter{}, fmt.Errorf("New Delimiter - tokenizer.New: %w", err)
 	}
@@ -27,6 +27,7 @@ func New(limit int) (*Delimiter, error) {
 	}, nil
 }
 
+// Split returns slice of strings split by token limit.
 func (d *Delimiter) Split(s string) ([]string, error) {
 	tokens, err := d.e.Encode(s)
 	if err != nil {
@@ -35,15 +36,15 @@ func (d *Delimiter) Split(s string) ([]string, error) {
 
 	splitS := make([]string, (len(tokens)/d.limit)+1)
 
-	for i, t := range d.limitSpl(tokens) {
+	for i, t := range d.TokenSplit(tokens) {
 		splitS[i] = d.e.Decode(t)
 	}
 
 	return splitS, nil
 }
 
-// limitSpl returns slice of tokens split by limit
-func (d *Delimiter) limitSpl(blob []int) (split [][]int) {
+// TokenSplit returns slice of tokens split by token limit.
+func (d *Delimiter) TokenSplit(blob []int) (split [][]int) {
 	if len(blob) < 1 {
 		return nil
 	}
