@@ -1,1 +1,1 @@
-# gpt-3-token-limit-delimiter
+# gpt-text-delimiter

@@ -3,7 +3,7 @@ package delimiter
 import (
 	"fmt"
 
-	"github.com/seriozhakorneev/gpt-3-token-limit-divider/pkg/tokenizer"
+	"github.com/seriozhakorneev/gpt-text-delimiter/pkg/tokenizer"
 )
 
 type Delimiter struct {
