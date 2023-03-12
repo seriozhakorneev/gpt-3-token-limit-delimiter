@@ -6,11 +6,6 @@ import (
 	gpt3encoder "github.com/samber/go-gpt-3-encoder"
 )
 
-type Encoder interface {
-	Encode(string) ([]int, error)
-	Decode([]int) string
-}
-
 type GPT3 struct {
 	e *gpt3encoder.Encoder
 }
