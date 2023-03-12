@@ -2,23 +2,16 @@ package delimiter
 
 import (
 	"fmt"
-
-	"github.com/seriozhakorneev/gpt-text-delimiter/pkg/tokenizer"
 )
 
 type Delimiter struct {
 	limit int
-	e     tokenizer.Encoder
+	e     Encoder
 }
 
-func New(limit int) (*Delimiter, error) {
+func New(encoder Encoder, limit int) (*Delimiter, error) {
 	if limit < 1 {
-		return &Delimiter{}, fmt.Errorf("token limit should be more than 0")
-	}
-
-	encoder, err := tokenizer.NewGPT3()
-	if err != nil {
-		return &Delimiter{}, fmt.Errorf("New Delimiter - tokenizer.New: %w", err)
+		return nil, fmt.Errorf("token limit should be more than 0")
 	}
 
 	return &Delimiter{
@@ -29,9 +22,13 @@ func New(limit int) (*Delimiter, error) {
 
 // Split returns slice of strings split by token limit.
 func (d *Delimiter) Split(s string) ([]string, error) {
+	if len(s) < 1 {
+		return nil, nil
+	}
+
 	tokens, err := d.e.Encode(s)
 	if err != nil {
-		return nil, fmt.Errorf("Delimiter - Split - d.e.Encode: %w", err)
+		return nil, fmt.Errorf("delimiter - Split - d.e.Encode: %w", err)
 	}
 
 	splitS := make([]string, (len(tokens)/d.limit)+1)
